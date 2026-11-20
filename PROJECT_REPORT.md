@@ -1,15 +1,24 @@
 # Vishwakarma University, Pune
 ### Faculty of Science & Technology
-### Department of AI/AIML/AIDS
+### Department of Artificial Intelligence & Machine Learning (AIML)
 
 ---
 
 <div align="center">
 
-# Adaptive, Uncertainty-Aware and Evidence-Grounded Vision-Language Document Intelligence under Real-World Visual Degradation
+<img src="vu_logo.png" alt="Vishwakarma University Logo" width="160" />
 
-### **S. Y. B. Tech (Department of Artificial Intelligence & Data Science)**
-### **Project 1 [AIDS201 - Artificial Intelligence & Data Science Project 1]**
+# VISHWAKARMA UNIVERSITY, PUNE
+### **Faculty of Science & Technology**
+### **Department of Artificial Intelligence & Machine Learning (AIML)**
+### Pursuing in S. Y. B. Tech (Artificial Intelligence & Machine Learning)
+
+---
+
+## **Adaptive, Uncertainty-Aware and Evidence-Grounded Vision-Language Document Intelligence under Real-World Visual Degradation**
+
+### **A Project 1 Report On**
+### **Project 1 [AIML201 - Artificial Intelligence & Machine Learning Project 1]**
 
 <br/>
 
@@ -20,36 +29,31 @@
 
 <br/>
 
-### **2026-2027**
-
-<br/>
-
-### Pursuing in
-### **Department of AI/AIML/AIDS**
-### **Faculty of Science & Technology**
-### **Vishwakarma University, Pune**
+### **Academic Year 2026–2027**
 
 </div>
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 ## Index
 
 | Sr.No. | Content | Page No. |
 | :---: | :--- | :---: |
-| 1 | Introduction & Research Background | 1 |
-| 2 | Problem Formulation & System Architecture | 3 |
-| 3 | Core Implementation & Source Code | 7 |
-| 4 | Experimental Benchmarks & Hardware Profiling | 13 |
-| 5 | Results Analysis & Statistical Verification | 17 |
-| 6 | Conclusion & Future Research Directions | 21 |
+| 1 | Introduction & Research Background | 3 |
+| 2 | Problem Formulation & System Architecture | 4 |
+| 3 | Core Implementation & Source Code | 5 |
+| 4 | Experimental Benchmarks & Hardware Profiling | 8 |
+| 5 | Results Analysis & Statistical Verification | 9 |
+| 6 | Conclusion & Future Research Directions | 10 |
 
 ---
 
 # Introduction:
 
 ### 1.1 Context and Problem Definition
-Intelligent Document Processing (IDP) forms the computational backbone of modern document-driven enterprise workflows, including invoice processing, financial auditing, tax form compliance, medical record digitization, and legal discovery. Traditional optical character recognition (OCR) and early heuristic extractors were engineered under the assumption of high-fidelity, high-contrast, clean 300 DPI flatbed scans.
+Intelligent Document Processing (IDP) serves as a mission-critical technology in modern enterprise machine learning workflows, including invoice processing, financial auditing, tax form compliance, medical record digitization, and legal discovery. Traditional optical character recognition (OCR) and early heuristic extractors were engineered under the assumption of high-fidelity, high-contrast, clean 300 DPI flatbed scans.
 
 However, real-world document ingestion pipelines in industrial practice regularly confront acute visual degradation. Mobile captures introduce optical blur, motion defocus, non-uniform specular glare, and non-linear perspective warping. Physical document handling and archiving introduce document skew, uneven lighting gradients, sensor noise, coffee stains, fold lines, and physical tears.
 
@@ -91,16 +95,13 @@ def measure_blur(gray_image: np.ndarray, config: Dict[str, Any]) -> Dict[str, fl
     if gray_image is None or gray_image.size == 0:
         return {"blur_score": 0.0, "tenengrad": 0.0, "is_valid": False}
 
-    # Variance of Laplacian for high-frequency edge attenuation
     laplacian = cv2.Laplacian(gray_image, cv2.CV_64F, ksize=config.get("kernel_size", 3))
     lap_var = float(laplacian.var())
 
-    # Tenengrad Gradient Energy using Sobel operators
     gx = cv2.Sobel(gray_image, cv2.CV_64F, 1, 0, ksize=3)
     gy = cv2.Sobel(gray_image, cv2.CV_64F, 0, 1, ksize=3)
     tenengrad = float(np.mean(gx**2 + gy**2))
 
-    # Normalized sharpness score mapped into [0, 1]
     clean_th = float(config.get("clean_threshold", 300.0))
     norm_val = min(1.0, max(0.0, lap_var / clean_th))
 
@@ -210,7 +211,6 @@ class AbstentionGate:
         self.min_iou = min_iou
 
     def should_abstain(self, uncertainty_score: float, grounding_iou: float) -> bool:
-        # Abstain if uncertainty exceeds bound or spatial evidence grounding fails
         if uncertainty_score > self.u_thresh or grounding_iou < self.min_iou:
             return True
         return False
@@ -309,5 +309,5 @@ Across 9 visual corruption families (Gaussian blur, motion blur, sensor noise, l
 ### 3.6 Key Defense Takeaways
 1. **Hallucination Safety**: Spatial evidence grounding dropped the unsupported answer rate from **22.91%** down to **1.09%**.
 2. **Context & Latency Efficiency**: Dense retrieval cut input pages by **60%**, halving physical runtime from **7.49s** to **3.75s**.
-3. **Edge Feasibility**: INT4 NF4 quantization fits the complete system inside **530.95 MB VRAM** on an NVIDIA RTX 3050 6GB Laptop GPU.
+3. **Edge Deployability**: INT4 NF4 quantization fits the complete system inside **530.95 MB VRAM** on an NVIDIA RTX 3050 6GB Laptop GPU.
 4. **Empirical Integrity**: Verified across 1,100 traces, 15 CSV benchmark tables, and 12 publication figures with $B=10,000$ bootstrap validation.
